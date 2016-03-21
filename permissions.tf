@@ -1,4 +1,5 @@
-# IAM role and policy giving access to the required resources for our lambda function
+# permissions.tf: IAM role and policy giving access to the required resources for our lambda function
+# Copyright (c) 2016 Gabor Maylander (gabormay@github)
 
 resource "aws_iam_role" "ebs_backup_role" {
     name = "ebs_backup_role"

@@ -1,6 +1,10 @@
+# lambda_abs_backup.py: Implements the lambda function for the ebs backup feature 
+# Copyright (c) 2016 Gabor Maylander (gabormay@github)
+
 import datetime
 import boto3
 
+# Main entry point for the lambda function
 def backup_handler(event, context):
     ec2 = boto3.resource('ec2')
 
@@ -14,8 +18,8 @@ def backup_handler(event, context):
     #   Cleanup earlier snapshots:
     #       Keep at least n_snapshots_to_keep backups
     #       Delete only ones older than min_snapshot_age_to_delete
-    n_snapshots_to_keep = 3
-    min_snapshot_age_to_delete = 0 # (in days)
+    n_snapshots_to_keep = 10
+    min_snapshot_age_to_delete = 7 # (in days)
 
     volumes_to_backup = ec2.volumes.filter(Filters=[{'Name': 'tag-key', 'Values': ['Backup']}])
     for vol in volumes_to_backup:
@@ -51,7 +55,7 @@ def backup_handler(event, context):
                 print 'Deleting old snapshot', snap.id, snap.start_time, (datetime.date.today() - snap.start_time.date()).days, "days old"
                 i_deleted += 1
                 snap.delete()
-                
+
     msg = "Done, created {} new backups and deleted {} old ones".format(i_backed_up, i_deleted)
     print msg
     return {'message': msg} 
