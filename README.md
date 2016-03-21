@@ -14,6 +14,7 @@ variables: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_DEFAULT_REGION`
     * `./build.sh`
     * (optional) `terraform plan`
     * `terraform apply`
+* Add the tag `Backup` to all volumes you want to include in the backup process. The value of the tag is indifferent, use e.g. `daily`.
 
 # Cleaning up
 Run `terraform destroy` to clean up and delete all associated resources from AWS. Note that this needs the `terraform.tfstate` that was created during the provisioning step above.
